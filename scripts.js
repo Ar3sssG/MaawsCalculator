@@ -1,10 +1,12 @@
 'use strict'
 function CalculateDistance(playerX, playerY, targetX, targetY) {
-    let xDiff = playerX - targetX;
-    let yDiff = playerY - targetY;
+    let xDiff = targetX -playerX;
+    let yDiff = targetY - playerY;
 
     let distance = Math.sqrt(xDiff ** 2 + yDiff ** 2);
-    distance = Math.round(distance);
+    distance = distance * 100;
+    distance = distance.toFixed(4);
+    distance = Math.ceil(distance);
     return distance;
 }
 
