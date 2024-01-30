@@ -1,0 +1,12 @@
+/* Styles for project */
+.backgroundImage
+{
+    background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),  url('images/Arma3-maaws-11.png');
+    height: 100dvh;
+    filter: blur(1);
+    
+}
+
+.textColor {
+    color: aliceblue;
+}
