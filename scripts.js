@@ -1,6 +1,6 @@
 'use strict'
 function CalculateDistance(playerX, playerY, targetX, targetY) {
-    let xDiff = targetX -playerX;
+    let xDiff = targetX - playerX;
     let yDiff = targetY - playerY;
 
     let distance = Math.sqrt(xDiff ** 2 + yDiff ** 2);
@@ -10,8 +10,8 @@ function CalculateDistance(playerX, playerY, targetX, targetY) {
     return distance;
 }
 
-function CalculateHorizontalRange(distance, azimuth = 0) {
-    return distance * Math.cos(azimuth);
+function CalculateHorizontalRange(distance, azimuth) {
+    return distance * Math.cos((azimuth * Math.PI) / 180).toFixed(4);
 }
 
 function CalculateFlightTime(horizontalRange, projectileSpeed = 750) {
@@ -19,12 +19,14 @@ function CalculateFlightTime(horizontalRange, projectileSpeed = 750) {
 }
 
 function CalculateVerticalRange(flightTime, playerHeight, targetHeight, gravityForce = 9.81) {
-    let verticalRange = (0.5 * gravityForce * (flightTime ** 2)) + (targetHeight - playerHeight);
+    let sqrFlightTime = flightTime ** 2;
+
+    let verticalRange = (0.5 * gravityForce * sqrFlightTime) + (targetHeight - playerHeight);
     return verticalRange;
 }
 
 function CalculateElevation(verticalRange, horizontalRange) {
-    return Math.atan(verticalRange / horizontalRange);
+    return Math.atan((verticalRange / horizontalRange) * 180 / Math.PI);//***********
 }
 
 function ConvertDegreesToMils(degree) {
@@ -48,19 +50,19 @@ function CalculateDistanceValue() {
 
 function CalculateElevationAndETA() {
     let targetDistance = parseFloat(document.getElementById("targetDistance").value);
-    let azimuth = parseFloat(document.getElementById("azimuth").value);
+    let azimuth = Number(document.getElementById("azimuth").value);
     let playerHeight = parseFloat(document.getElementById("playerHeight").value);
     let targetHeight = parseFloat(document.getElementById("targetHeight").value);
 
-    if (!isNaN(targetDistance) || !isNaN(azimuth) || !isNaN(playerHeight) || !isNaN(targetHeight)) {
+    if (!isNaN(targetDistance) && !isNaN(playerHeight) && !isNaN(targetHeight)) {
         let horizontalRange = CalculateHorizontalRange(targetDistance, azimuth);
         let flightTime = CalculateFlightTime(horizontalRange);
         let verticalRange = CalculateVerticalRange(flightTime, playerHeight, targetHeight);
         let elevation = CalculateElevation(verticalRange, horizontalRange);
         let elevationInMils = ConvertDegreesToMils(elevation);
 
-        document.getElementById("elevationResult").value = Math.abs(elevationInMils);
-        document.getElementById("etaResult").value = flightTime;
+        document.getElementById("elevationResult").value = Math.abs(elevationInMils).toFixed(2);
+        document.getElementById("etaResult").value = flightTime.toFixed(2);
     }
 
     return;
