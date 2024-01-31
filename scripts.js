@@ -11,7 +11,7 @@ function CalculateDistance(playerX, playerY, targetX, targetY) {
 }
 
 function CalculateHorizontalRange(distance, azimuth) {
-    return distance * Math.cos((azimuth * Math.PI) / 180).toFixed(4);
+    return (distance * Math.cos((azimuth * Math.PI) / 180)).toFixed(4);
 }
 
 function CalculateFlightTime(horizontalRange, projectileSpeed = 750) {
